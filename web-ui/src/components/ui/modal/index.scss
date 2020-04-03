@@ -1,0 +1,183 @@
+$font-color: #626c82;
+$university-btn-color: #0F78FF;
+$document-btn-color: #626C82;
+$cancel-btn-color: #FFFFFF;
+$ok-btn-color: #0F78FF;
+
+.ant-modal-root {
+    .ant-modal-mask {
+    background-color: #5F6980
+    }
+
+    .ant-modal-wrap {  
+        .ant-modal {
+            .ant-modal-content {
+                background-color: #FFFFFF;
+                box-shadow: 0px 20px 40px #414E69;
+                border-radius: 12px; 
+                // margin: 18%; 
+                .ant-modal-header {
+                    border-bottom: none;
+                    border-radius: 12px 12px 0px 0px;
+                    .ant-modal-title {
+                        position: relative;
+                        top: 10px;
+                        font-family: Poppins;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 24px;
+                        line-height: 24px;
+                        display: flex;
+                        align-items: center;
+                        color: $font-color;
+                    }
+                }
+                
+                .ant-modal-body {
+                    color: $font-color;
+                    .detail {
+                        margin-top: -14px;
+                        font-family: Poppins;
+                        font-style: normal;
+                    }
+                    div {
+                        .date {
+                            margin-top: 24px;
+                            font-family: Poppins;
+                            font-style: normal;
+                        }
+                    }
+                    div {
+                        .upload {
+                            margin-top: 24px;
+                            font-family: Poppins;
+                            font-style: normal;
+                        }
+                    }
+                }
+                
+                .ant-modal-footer {
+                    border-top: none;
+                    button {
+                        box-sizing: border-box;
+                        border-radius: 4px;
+                        width: 100px;
+                    }
+                    .ant-btn {
+                        background-color: $cancel-btn-color;
+                        border: 1px solid $cancel-btn-color;
+                        color: #626C82;
+                    }
+                    .ant-btn-primary {
+                        background-color: $ok-btn-color;
+                        border: 1px solid $ok-btn-color;
+                        color: white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.university {
+    .ant-btn {
+        color: $university-btn-color;
+        border: 1px solid $university-btn-color;
+        border-radius: 37px;
+        box-sizing: border-box;
+        width: 320px;
+        height: 40px;
+    }
+}
+
+.document {
+    .ant-btn {
+        color: $document-btn-color;
+        border: none;
+    }
+}
+
+.ant-calendar {
+    border-radius: 12px;
+}
+
+.ant-calendar-picker {
+    width: 100%;
+}
+
+.ant-calendar-picker-container {
+    left: calc(50% - 140px) !important;
+    top: 390px !important; 
+}
+
+.ant-calendar-input-wrap {
+    display: none;
+}
+
+.modal-wrap-university {
+    .ant-modal {
+        .ant-modal-content {
+            margin: 90px;
+        }
+    }
+}
+
+.modal-wrap-document-name {
+    .ant-modal {
+        .ant-modal-content {
+            margin-left: 90px;
+            margin-right: 90px;
+            margin-top: 176px;
+        }
+    }
+}
+
+.modal-wrap-document-date {
+    .ant-modal {
+        .ant-modal-content {
+            margin-left: 90px;
+            margin-right: 90px;
+            margin-top: 176px;
+        }
+    }
+}
+
+.document {
+    p {
+        color: $document-btn-color;
+    }
+}
+
+.ant-calendar-header .ant-calendar-next-century-btn, .ant-calendar-header .ant-calendar-next-decade-btn, .ant-calendar-header .ant-calendar-prev-year-btn {
+    display: none;
+}
+
+.ant-calendar-header .ant-calendar-next-century-btn, .ant-calendar-header .ant-calendar-next-decade-btn, .ant-calendar-header .ant-calendar-next-year-btn {
+    display: none;
+}
+
+.ant-calendar-header .ant-calendar-prev-month-btn {
+    left: 60px;
+}
+
+.ant-calendar-header .ant-calendar-next-month-btn {
+    right: 60px;
+}
+
+.ant-calendar-next-year-btn {
+    display: none;
+}
+
+.ant-calendar-footer {
+    display: none;
+}
+
+.ant-calendar-table {
+    thead {
+        display: none;
+    }
+}
+
+.ant-calendar-header {
+    border-bottom: none;
+}

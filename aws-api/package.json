@@ -1,0 +1,43 @@
+{
+  "name": "aws-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "serverless offline  --noAuth --env local -P 3001 --profile weadmit",
+    "deploy:dev": "serverless deploy --stage dev --aws-profile weadmit --env dev",
+    "deploy:prod": "serverless deploy --stage prod --aws-profile weadmit --env prod"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "aws-sdk": "^2.595.0",
+    "serverless-dotenv-plugin": "^2.1.1",
+    "serverless-offline": "^5.12.1"
+  },
+  "dependencies": {
+    "apollo-datasource": "^0.6.3",
+    "apollo-server-lambda": "^2.9.14",
+    "async": "^3.1.0",
+    "axios": "^0.19.0",
+    "debug": "^4.1.1",
+    "googleapis": "^46.0.0",
+    "graphql": "^14.5.8",
+    "graphql-custom-types": "^1.5.1",
+    "graphql-iso-date": "^3.6.1",
+    "graphql-request": "^1.8.2",
+    "graphql-resolvers": "^0.3.3",
+    "graphql-tools": "^4.0.6",
+    "http-errors": "^1.7.3",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.2",
+    "lodash": "^4.17.15",
+    "merge-graphql-schemas": "^1.7.3",
+    "middy": "^0.33.0",
+    "moment": "^2.24.0",
+    "moment-range": "^4.0.2",
+    "twilio": "^3.39.1",
+    "uuid": "^3.3.3"
+  }
+}

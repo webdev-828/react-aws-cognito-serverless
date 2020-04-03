@@ -1,0 +1,31 @@
+#tooltip .tooltiptext_lc {
+    visibility: hidden; 
+    position: absolute;
+    width: 180px;
+    border: 1px solid #e3ebf6;
+    text-align: center;
+    padding: 10px;
+    margin-left: -75px;
+    margin-top: -35px;
+    z-index: 1;
+    background-color: white;
+}
+
+#tooltip:hover .tooltiptext_lc {
+    visibility: visible;
+}
+
+#tooltip .tooltiptext_student {
+    visibility: hidden;
+    position: sticky;
+    border: 1px solid #e3ebf6;
+    text-align: center;
+    padding: 10px 60px;
+    margin-left: -63px;
+    z-index: 1;
+    background-color: white;
+}
+
+#tooltip:hover .tooltiptext_student {
+    visibility: visible;
+}

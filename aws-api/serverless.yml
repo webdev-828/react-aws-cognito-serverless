@@ -1,0 +1,286 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: weadmit
+frameworkVersion: ">=1.48.4"
+# app and org for use with dashboard.serverless.com
+#app: your-app-name
+#org: your-org-name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+custom:
+  region: us-east-2
+  stage: ${opt:stage, 'dev'}
+  cognitoPoolARN: ${env:COGNITO_POOL_ARN}
+  GW_URL: { "Fn::Join" : ["", [ "https://", { "Ref" : "ApiGatewayRestApi" }, ".execute-api.${self:custom.region}.amazonaws.com/${self:custom.stage}" ] ]  }
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-2
+  stage: ${self:custom.stage}
+  versionFunctions: false
+  logRetentionInDays: 14
+  environment:
+    DEBUG: APP:*
+    STAGE: ${self:custom.stage}
+    GW_URL: ${self:custom.GW_URL}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "rekognition:*"
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - cognito-sync:*
+        - cognito-identity:*
+      Resource: arn:aws:cognito-identity:*:*:*
+    - Effect: Allow
+      Action:
+        - cognito-idp:*
+      Resource: arn:aws:cognito-idp:*:*:*
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource:
+        - "*"
+    - Effect: "Allow"
+      Action:
+        - sqs:SendMessage
+      Resource: "*"
+
+package:
+  exclude:
+    excludeDevDependencies: true
+    exclude:
+      - .git/**
+      - .vscode/**
+      - .test/**
+      - twilio-server/**
+      - weadmit-cognito-post-confirm/**
+      - weadmit-cognito-pretoken/**
+      - weadmit-sms-api/**
+
+functions:
+  graphql:
+    handler: graphql/handler.server
+    events:
+      - http:
+          path: /graphql
+          method: post
+          cors: true
+  graphiql:
+    handler: graphql/handler.server
+    events:
+      - http:
+          path: /graphql
+          method: get
+          cors: true
+  health:
+    handler: api/health.handle
+    events:
+      - http:
+          path: /health
+          method: get
+          cors: true
+  gogole-auth:
+    handler: api/calendar.saveGoogleAuth
+    events:
+      - http:
+          path: /google/auth
+          method: post
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  caneldar-write:
+    handler: api/calendar.addUpdateEvent
+    events:
+      - http:
+          path: /google/events
+          method: post
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  caledar-slots:
+    handler: api/calendar.getSlots
+    events:
+      - http:
+          path: /calendar/slots
+          method: get
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  caledar-list:
+    handler: api/calendar.getEvents
+    events:
+      - http:
+          path: /google/events
+          method: get
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  caledar-delete:
+    handler: api/calendar.deleteEvent
+    events:
+      - http:
+          path: /google/events/{sub}/{eventId}
+          method: delete
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  analysis-transcribe:
+    handler: api/analysisAudio.transcribe
+    events:
+      - http:
+          path: /analysis/audio/transcribe
+          method: post
+          cors: true
+  analysis-on-transcribed:
+    handler: api/analysisAudio.onTranscribed
+    events:
+      - s3:
+          existing: true
+          bucket: 'weadmit-transcriptions-${self:custom.stage}'
+          events:
+            - s3:ObjectCreated:*
+          rules:
+            - suffix: .json
+  analysis-facedetect:
+    handler: api/analysisVideo.facedetect
+    events:
+      - http:
+          path: /analysis/video/facedetect
+          method: post
+          cors: true
+  college-search:
+    handler: api/college.searchCollege
+    events:
+      - http:
+          path: /college/search
+          method: get
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  college-get:
+    handler: api/college.getCollege
+    events:
+      - http:
+          path: /college/{id}
+          method: get
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  document-upload:
+    handler: api/document.upload
+    events:
+      - http:
+          path: /document
+          method: post
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  document-create:
+    handler: api/document.create
+    events:
+      - http:
+          path: /document/new
+          method: post
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  twilio-sms-create:
+    handler: api/twilio.sendTextMessage
+    events:
+      - http:
+          path: /twilio/sms
+          method: post
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  twilio-video-token:
+    handler: api/twilio.getVideoToken
+    events:
+      - http:
+          path: /twilio/video/token
+          method: post
+          cors: true
+          authorizer:
+            arn: ${self:custom.cognitoPoolARN}
+  twilio-room-webhook:
+    handler: api/twilio.roomStatusWebhook
+    events:
+      - http:
+          path: /twilio/webhooks/room
+          method: post
+  twilio-composition-webhook:
+    handler: api/twilio.compositionWebhook
+    environment:
+      TWILIO_QUEUE_URL: !Ref TwilioQueue
+    events:
+      - http:
+          path: /twilio/webhooks/composition
+          method: post
+  twilio-queue-handler:
+    handler: api/twilio.handleQueue
+    timeout: 600
+    events:
+      - sqs:
+          batchSize: 1
+          arn:
+            Fn::GetAtt:
+              - TwilioQueue
+              - Arn
+  cognito-post-confirm:
+    handler: api/cognito-post-confirm.handler
+  cognito-pretoken:
+    handler: api/cognito-pretoken.handler
+resources:
+  Resources:
+    TwilioQueue:
+      Type: 'AWS::SQS::Queue'
+      Properties:
+        QueueName: 'TwilioQueue-${self:custom.stage}'
+        VisibilityTimeout: 600
+    DEFAULT4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+    DEFAULT5XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_5XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+    AUTHORIZERFAILURE:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: AUTHORIZER_FAILURE
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+

@@ -1,0 +1,38 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "weadmit-20200202110919-authRole",
+            "UnauthRoleArn": "arn:aws:iam::536335609904:role/weadmit-20200202110919-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::536335609904:role/weadmit-20200202110919-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "weadmit-20200202110919-deployment",
+            "UnauthRoleName": "weadmit-20200202110919-unauthRole",
+            "StackName": "weadmit-20200202110919",
+            "StackId": "arn:aws:cloudformation:us-east-2:536335609904:stack/weadmit-20200202110919/5d184950-457e-11ea-b71f-0a569e9f7d94",
+            "AmplifyAppId": "d2eat4jm0pzgn"
+        },
+        "categories": {
+            "auth": {
+                "cognitoca462283": {}
+            }
+        }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-weadmit-prod-121558-authRole",
+            "UnauthRoleArn": "arn:aws:iam::536335609904:role/amplify-weadmit-prod-121558-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::536335609904:role/amplify-weadmit-prod-121558-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-weadmit-prod-121558-deployment",
+            "UnauthRoleName": "amplify-weadmit-prod-121558-unauthRole",
+            "StackName": "amplify-weadmit-prod-121558",
+            "StackId": "arn:aws:cloudformation:us-east-2:536335609904:stack/amplify-weadmit-prod-121558/ae5db620-4587-11ea-83a4-02c25da8714e",
+            "AmplifyAppId": "d2eat4jm0pzgn"
+        },
+        "categories": {
+            "auth": {
+                "cognitoca462283": {}
+            }
+        }
+    }
+}
